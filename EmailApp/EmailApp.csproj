@@ -73,7 +73,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Letter.cs" />
-    <Compile Include="Models\MailboxInfo.cs" />
+    <Compile Include="Models\EmailInfo.cs" />
+    <Compile Include="Logic\PostShiftQueryHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

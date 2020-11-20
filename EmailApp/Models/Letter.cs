@@ -8,7 +8,7 @@ namespace EmailApp.Models
 {
     public class Letter
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string Date { get; set; }
         public string Subject { get; set; }
         public string From { get; set; }

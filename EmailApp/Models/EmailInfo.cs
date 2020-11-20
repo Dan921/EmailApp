@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EmailApp.Models
 {
-    public class MailboxInfo
+    public class EmailInfo
     {
         public string Email { get; set; }
         public string Key { get; set; }

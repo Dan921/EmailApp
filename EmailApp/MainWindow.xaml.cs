@@ -24,7 +24,8 @@ namespace EmailApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        private MailboxInfo _mailboxInfo = new MailboxInfo();
+        private EmailInfo _mailboxInfo;
+        PostShiftQueryHelper postShiftQueryHelper = new PostShiftQueryHelper();
 
         public MainWindow()
         {
@@ -34,14 +35,7 @@ namespace EmailApp
         private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
             Clear();
-            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create("https://post-shift.ru/api.php?action=new&type=json");
-            HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
-
-            using (StreamReader stream = new StreamReader(
-                 resp.GetResponseStream(), Encoding.UTF8))
-            {
-                _mailboxInfo = JsonConvert.DeserializeObject<MailboxInfo>(stream.ReadToEnd());
-            }
+            _mailboxInfo = postShiftQueryHelper.GetNewMailInfo();
             if (_mailboxInfo.Key == null)
             {
                 MessageBox.Show("Error: On the server technical work!");
@@ -56,14 +50,7 @@ namespace EmailApp
         {
             if (_mailboxInfo != null)
             {
-                HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create($"https://post-shift.ru/api.php?action=getlist&key={_mailboxInfo.Key}&type=json");
-                HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
-
-                using (StreamReader stream = new StreamReader(
-                     resp.GetResponseStream(), Encoding.UTF8))
-                {
-                    LettersGrid.ItemsSource = JsonConvert.DeserializeObject<List<Letter>>(stream.ReadToEnd());
-                }
+                LettersGrid.ItemsSource = postShiftQueryHelper.GetListLetters(_mailboxInfo.Key);
             }
             else
             {
@@ -77,15 +64,7 @@ namespace EmailApp
             if (LettersGrid.SelectedItems.Count > 0)
             {
                 Letter letter = (Letter)LettersGrid.SelectedItems[0];
-
-                HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create($"https://post-shift.ru/api.php?action=getmail&key={_mailboxInfo.Key}&id={letter.ID}&type=json");
-                HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
-
-                using (StreamReader stream = new StreamReader(
-                     resp.GetResponseStream(), Encoding.UTF8))
-                {
-                    MessageBox.Show(stream.ReadToEnd());
-                }
+                MessageBox.Show(postShiftQueryHelper.GetLetterText(_mailboxInfo.Key, letter.Id));
             }
             else
             {
@@ -97,14 +76,7 @@ namespace EmailApp
         {
             if (_mailboxInfo != null)
             {
-                HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create($"https://post-shift.ru/api.php?action=livetime&key={_mailboxInfo.Key}");
-                HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
-
-                using (StreamReader stream = new StreamReader(
-                     resp.GetResponseStream(), Encoding.UTF8))
-                {
-                    LiveTimeLabel.Content = $"Почте осталось: {stream.ReadToEnd()} секунд";
-                }
+                LiveTimeLabel.Content = $"Почте осталось: {postShiftQueryHelper.GetEmailLiveTime(_mailboxInfo.Key)} секунд";
             }
             else
             {
@@ -116,14 +88,7 @@ namespace EmailApp
         {
             if (_mailboxInfo != null)
             {
-                HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create($"https://post-shift.ru/api.php?action=update&key={_mailboxInfo.Key}");
-                HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
-
-                using (StreamReader stream = new StreamReader(
-                     resp.GetResponseStream(), Encoding.UTF8))
-                {
-                    LiveTimeLabel.Content = $"Почте осталось: {stream.ReadToEnd()} секунд";
-                }
+                LiveTimeLabel.Content = $"Почте осталось: {postShiftQueryHelper.ProlongEmailLiveTime(_mailboxInfo.Key)} секунд";
             }
             else
             {
@@ -135,14 +100,7 @@ namespace EmailApp
         {
             if (_mailboxInfo != null)
             {
-                HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create($"https://post-shift.ru/api.php?action=clear&key={_mailboxInfo.Key}");
-                HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
-
-                using (StreamReader stream = new StreamReader(
-                     resp.GetResponseStream(), Encoding.UTF8))
-                {
-                    MessageBox.Show(stream.ReadToEnd());
-                }
+                MessageBox.Show(postShiftQueryHelper.DeleteEmail(_mailboxInfo.Key));
                 Clear();
             }
             else
@@ -153,14 +111,7 @@ namespace EmailApp
 
         private void DeleteAllEmailByIPButton_Click(object sender, RoutedEventArgs e)
         {
-            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create($"https://post-shift.ru/api.php?action=deleteall");
-            HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
-
-            using (StreamReader stream = new StreamReader(
-                 resp.GetResponseStream(), Encoding.UTF8))
-            {
-                MessageBox.Show(stream.ReadToEnd());
-            }
+            MessageBox.Show(postShiftQueryHelper.DeleteAllEmailByIP());
             Clear();
         }
 
