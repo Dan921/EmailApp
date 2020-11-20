@@ -4,11 +4,9 @@ C:\Users\Kupry\source\repos\EmailApp\EmailApp\bin\Debug\EmailApp.pdb
 C:\Users\Kupry\source\repos\EmailApp\EmailApp\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Kupry\source\repos\EmailApp\EmailApp\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Kupry\source\repos\EmailApp\EmailApp\obj\Debug\EmailApp.csprojAssemblyReference.cache
-C:\Users\Kupry\source\repos\EmailApp\EmailApp\obj\Debug\MainWindow.g.cs
 C:\Users\Kupry\source\repos\EmailApp\EmailApp\obj\Debug\App.g.cs
 C:\Users\Kupry\source\repos\EmailApp\EmailApp\obj\Debug\EmailApp_MarkupCompile.cache
 C:\Users\Kupry\source\repos\EmailApp\EmailApp\obj\Debug\EmailApp_MarkupCompile.lref
-C:\Users\Kupry\source\repos\EmailApp\EmailApp\obj\Debug\MainWindow.baml
 C:\Users\Kupry\source\repos\EmailApp\EmailApp\obj\Debug\EmailApp.g.resources
 C:\Users\Kupry\source\repos\EmailApp\EmailApp\obj\Debug\EmailApp.Properties.Resources.resources
 C:\Users\Kupry\source\repos\EmailApp\EmailApp\obj\Debug\EmailApp.csproj.GenerateResource.cache
@@ -16,3 +14,5 @@ C:\Users\Kupry\source\repos\EmailApp\EmailApp\obj\Debug\EmailApp.csproj.CoreComp
 C:\Users\Kupry\source\repos\EmailApp\EmailApp\obj\Debug\EmailApp.csproj.CopyComplete
 C:\Users\Kupry\source\repos\EmailApp\EmailApp\obj\Debug\EmailApp.exe
 C:\Users\Kupry\source\repos\EmailApp\EmailApp\obj\Debug\EmailApp.pdb
+C:\Users\Kupry\source\repos\EmailApp\EmailApp\obj\Debug\Windows\MainWindow.g.cs
+C:\Users\Kupry\source\repos\EmailApp\EmailApp\obj\Debug\Windows\MainWindow.baml
