@@ -17,13 +17,15 @@
                     <Button Content="Продлить почту на 10 минут" HorizontalAlignment="Left" Margin="302,160,0,0" VerticalAlignment="Top" Width="233" Height="40" Click="ProlongEmailButton_Click" FontSize="16"/>
                     <Button Content="Удалить эту почту" HorizontalAlignment="Left" Margin="117,30,0,0" VerticalAlignment="Top" Width="180" Height="45" Click="DeleteEmailButton_Click" FontSize="16"/>
                     <Button Content="Удалить все почты по IP" HorizontalAlignment="Left" Margin="302,30,0,0" VerticalAlignment="Top" Width="233" Height="45" Click="DeleteAllEmailByIPButton_Click" FontSize="16"/>
+                    <Button Name="CopyEmailButton" Content="Скопировать" HorizontalAlignment="Left" Margin="442,93,0,0" VerticalAlignment="Top" Width="93" Height="37" Click="CopyEmailButton_Click"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Посмотреть письма">
                 <Grid Background="#FFE5E5E5">
-                    <DataGrid Name="LettersGrid" HorizontalAlignment="Left" Height="381" VerticalAlignment="Top" Width="452"/>
+                    <DataGrid Name="LettersGrid" HorizontalAlignment="Left" Height="293" VerticalAlignment="Top" Width="452"/>
                     <Button Content="Обновить" HorizontalAlignment="Left" Margin="457,10,0,0" VerticalAlignment="Top" Width="78" Height="45" Click="UpdateButton_Click"/>
                     <Button Content="Прочитать" HorizontalAlignment="Left" Margin="457,60,0,0" VerticalAlignment="Top" Width="78" Height="45" Click="ReadLetterButton_Click"/>
+                    <Button Content="Очистить" HorizontalAlignment="Left" Margin="457,110,0,0" VerticalAlignment="Top" Width="78" Height="45" Click="ClearEmailButton_Click"/>
                 </Grid>
             </TabItem>
         </TabControl>

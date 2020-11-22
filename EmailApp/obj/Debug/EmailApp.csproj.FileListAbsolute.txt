@@ -16,3 +16,5 @@ C:\Users\Kupry\source\repos\EmailApp\EmailApp\obj\Debug\EmailApp.exe
 C:\Users\Kupry\source\repos\EmailApp\EmailApp\obj\Debug\EmailApp.pdb
 C:\Users\Kupry\source\repos\EmailApp\EmailApp\obj\Debug\Windows\MainWindow.g.cs
 C:\Users\Kupry\source\repos\EmailApp\EmailApp\obj\Debug\Windows\MainWindow.baml
+C:\Users\Kupry\source\repos\EmailApp\EmailApp\obj\Debug\Windows\EmailTextWindow.g.cs
+C:\Users\Kupry\source\repos\EmailApp\EmailApp\obj\Debug\Windows\EmailTextWindow.baml

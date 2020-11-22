@@ -11,11 +11,11 @@ namespace EmailApp.Models
 {
     public class PostShiftQueryHelper
     {
-        private string site = "https://post-shift.ru/api.php?action=";
+        private string link = "https://post-shift.ru/api.php?action=";
 
         public EmailInfo GetNewMailInfo()
         {
-            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(site + "new&type=json");
+            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create($"{link}new&type=json");
             HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
 
             using (StreamReader stream = new StreamReader(
@@ -27,19 +27,27 @@ namespace EmailApp.Models
 
         public List<Letter> GetListLetters(string key)
         {
-            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(site + $"getlist&key={key}&type=json");
+
+            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create($"{link}getlist&key={key}&type=json");
             HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
 
             using (StreamReader stream = new StreamReader(
                  resp.GetResponseStream(), Encoding.UTF8))
             {
-                return JsonConvert.DeserializeObject<List<Letter>>(stream.ReadToEnd());
+                try
+                {
+                    return (List<Letter>)JsonConvert.DeserializeObject(stream.ReadToEnd(), typeof(List<Letter>));
+                }
+                catch
+                {
+                    return null;
+                }
             }
         }
 
         public string GetLetterText(string key, int id)
         {
-            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(site + $"getmail&key={key}&id={id}&type=json");
+            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create($"{link}getmail&key={key}&id={id}&forced=1");
             HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
 
             using (StreamReader stream = new StreamReader(
@@ -51,7 +59,7 @@ namespace EmailApp.Models
 
         public string GetEmailLiveTime(string key)
         {
-            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(site + $"livetime&key={key}");
+            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create($"{link}livetime&key={key}");
             HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
 
             using (StreamReader stream = new StreamReader(
@@ -63,7 +71,7 @@ namespace EmailApp.Models
 
         public string ProlongEmailLiveTime(string key)
         {
-            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(site + $"update&key={key}");
+            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create($"{link}update&key={key}");
             HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
 
             using (StreamReader stream = new StreamReader(
@@ -75,7 +83,19 @@ namespace EmailApp.Models
 
         public string DeleteEmail(string key)
         {
-            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(site + $"clear&key={key}");
+            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create($"{link}clear&key={key}");
+            HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
+
+            using (StreamReader stream = new StreamReader(
+                 resp.GetResponseStream(), Encoding.UTF8))
+            {
+                return stream.ReadToEnd();
+            }
+        }
+
+        public string ClearEmail(string key)
+        {
+            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create($"{link}clear&key={key}");
             HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
 
             using (StreamReader stream = new StreamReader(
@@ -87,7 +107,7 @@ namespace EmailApp.Models
 
         public string DeleteAllEmailByIP()
         {
-            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(site + $"deleteall");
+            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create($"{link}deleteall");
             HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
 
             using (StreamReader stream = new StreamReader(

@@ -1,4 +1,5 @@
 ﻿using EmailApp.Models;
+using EmailApp.Windows;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -55,7 +56,7 @@ namespace EmailApp
             else
             {
                 MessageBox.Show("Создайте почту");
-                LettersGrid.Items.Refresh();
+                LettersGrid.ItemsSource = null;
             }
         }
 
@@ -64,7 +65,9 @@ namespace EmailApp
             if (LettersGrid.SelectedItems.Count > 0)
             {
                 Letter letter = (Letter)LettersGrid.SelectedItems[0];
-                MessageBox.Show(postShiftQueryHelper.GetLetterText(_mailboxInfo.Key, letter.Id));
+                EmailTextWindow emailTextWindow = new EmailTextWindow();
+                emailTextWindow.EmailTextBox.Text = postShiftQueryHelper.GetLetterText(_mailboxInfo.Key, letter.Id);
+                emailTextWindow.Show();
             }
             else
             {
@@ -118,7 +121,34 @@ namespace EmailApp
         private void Clear()
         {
             AddressLabel.Content = "Адрес почты: ";
+            LiveTimeLabel.Content = "";
+            LettersGrid.ItemsSource = null;
             _mailboxInfo = null;
+        }
+
+        private void CopyEmailButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(_mailboxInfo != null)
+            {
+                Clipboard.SetData(DataFormats.Text, (Object)_mailboxInfo.Email);
+            }
+            else
+            {
+                MessageBox.Show("Создайте почту");
+            }
+        }
+
+        private void ClearEmailButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_mailboxInfo != null)
+            {
+                MessageBox.Show(postShiftQueryHelper.DeleteEmail(_mailboxInfo.Key));
+                LettersGrid.ItemsSource = null;
+            }
+            else
+            {
+                MessageBox.Show("Создайте почту");
+            }
         }
     }
 }
