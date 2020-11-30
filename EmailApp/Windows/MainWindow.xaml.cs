@@ -25,8 +25,8 @@ namespace EmailApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        private EmailInfo _mailboxInfo;
-        PostShiftQueryHelper postShiftQueryHelper = new PostShiftQueryHelper();
+        EmailInfo _emailInfo = new EmailInfo();
+        private PostShiftQuery postShiftQuery = new PostShiftQuery();
 
         public MainWindow()
         {
@@ -36,22 +36,22 @@ namespace EmailApp
         private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
             Clear();
-            _mailboxInfo = postShiftQueryHelper.GetNewMailInfo();
-            if (_mailboxInfo.Key == null)
+            _emailInfo = postShiftQuery.GetNewMailInfo();
+            if (_emailInfo.Key == null)
             {
                 MessageBox.Show("Error: On the server technical work!");
-                _mailboxInfo = null;
+                _emailInfo = null;
             }
             else
-                AddressLabel.Content += _mailboxInfo.Email;
+                AddressLabel.Content += _emailInfo.Email;
 
         }
 
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_mailboxInfo != null)
+            if (_emailInfo != null)
             {
-                LettersGrid.ItemsSource = postShiftQueryHelper.GetListLetters(_mailboxInfo.Key);
+                LettersGrid.ItemsSource = postShiftQuery.GetListLetters();
             }
             else
             {
@@ -66,7 +66,7 @@ namespace EmailApp
             {
                 Letter letter = (Letter)LettersGrid.SelectedItems[0];
                 EmailTextWindow emailTextWindow = new EmailTextWindow();
-                emailTextWindow.EmailTextBox.Text = postShiftQueryHelper.GetLetterText(_mailboxInfo.Key, letter.Id);
+                emailTextWindow.EmailTextBox.Text = postShiftQuery.GetLetterText(letter.Id);
                 emailTextWindow.Show();
             }
             else
@@ -77,9 +77,9 @@ namespace EmailApp
 
         private void LiveTimeUpdateButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_mailboxInfo != null)
+            if (_emailInfo != null)
             {
-                LiveTimeLabel.Content = $"Почте осталось: {postShiftQueryHelper.GetEmailLiveTime(_mailboxInfo.Key)} секунд";
+                LiveTimeLabel.Content = $"Почте осталось: {postShiftQuery.GetEmailLiveTime()} секунд";
             }
             else
             {
@@ -89,9 +89,9 @@ namespace EmailApp
 
         private void ProlongEmailButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_mailboxInfo != null)
+            if (_emailInfo != null)
             {
-                LiveTimeLabel.Content = $"Почте осталось: {postShiftQueryHelper.ProlongEmailLiveTime(_mailboxInfo.Key)} секунд";
+                LiveTimeLabel.Content = $"Почте осталось: {postShiftQuery.ProlongEmailLiveTime()} секунд";
             }
             else
             {
@@ -101,9 +101,9 @@ namespace EmailApp
 
         private void DeleteEmailButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_mailboxInfo != null)
+            if (_emailInfo != null)
             {
-                MessageBox.Show(postShiftQueryHelper.DeleteEmail(_mailboxInfo.Key));
+                MessageBox.Show(postShiftQuery.DeleteEmail());
                 Clear();
             }
             else
@@ -114,7 +114,7 @@ namespace EmailApp
 
         private void DeleteAllEmailByIPButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(postShiftQueryHelper.DeleteAllEmailByIP());
+            MessageBox.Show(postShiftQuery.DeleteAllEmailByIP());
             Clear();
         }
 
@@ -123,14 +123,14 @@ namespace EmailApp
             AddressLabel.Content = "Адрес почты: ";
             LiveTimeLabel.Content = "";
             LettersGrid.ItemsSource = null;
-            _mailboxInfo = null;
+            _emailInfo = null;
         }
 
         private void CopyEmailButton_Click(object sender, RoutedEventArgs e)
         {
-            if(_mailboxInfo != null)
+            if(_emailInfo != null)
             {
-                Clipboard.SetData(DataFormats.Text, (Object)_mailboxInfo.Email);
+                Clipboard.SetData(DataFormats.Text, (Object)_emailInfo.Email);
             }
             else
             {
@@ -140,9 +140,9 @@ namespace EmailApp
 
         private void ClearEmailButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_mailboxInfo != null)
+            if (_emailInfo != null)
             {
-                MessageBox.Show(postShiftQueryHelper.DeleteEmail(_mailboxInfo.Key));
+                MessageBox.Show(postShiftQuery.DeleteEmail());
                 LettersGrid.ItemsSource = null;
             }
             else

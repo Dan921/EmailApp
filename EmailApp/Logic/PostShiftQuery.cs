@@ -9,9 +9,11 @@ using System.Threading.Tasks;
 
 namespace EmailApp.Models
 {
-    public class PostShiftQueryHelper
+    public class PostShiftQuery
     {
         private string link = "https://post-shift.ru/api.php?action=";
+
+        public string Key { get; set; }
 
         public EmailInfo GetNewMailInfo()
         {
@@ -25,10 +27,10 @@ namespace EmailApp.Models
             }
         }
 
-        public List<Letter> GetListLetters(string key)
+        public List<Letter> GetListLetters()
         {
 
-            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create($"{link}getlist&key={key}&type=json");
+            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create($"{link}getlist&key={Key}&type=json");
             HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
 
             using (StreamReader stream = new StreamReader(
@@ -45,9 +47,9 @@ namespace EmailApp.Models
             }
         }
 
-        public string GetLetterText(string key, int id)
+        public string GetLetterText(int id)
         {
-            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create($"{link}getmail&key={key}&id={id}&forced=1");
+            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create($"{link}getmail&key={Key}&id={id}&forced=1");
             HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
 
             using (StreamReader stream = new StreamReader(
@@ -57,9 +59,9 @@ namespace EmailApp.Models
             }
         }
 
-        public string GetEmailLiveTime(string key)
+        public string GetEmailLiveTime()
         {
-            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create($"{link}livetime&key={key}");
+            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create($"{link}livetime&key={Key}");
             HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
 
             using (StreamReader stream = new StreamReader(
@@ -69,9 +71,9 @@ namespace EmailApp.Models
             }
         }
 
-        public string ProlongEmailLiveTime(string key)
+        public string ProlongEmailLiveTime()
         {
-            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create($"{link}update&key={key}");
+            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create($"{link}update&key={Key}");
             HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
 
             using (StreamReader stream = new StreamReader(
@@ -81,9 +83,9 @@ namespace EmailApp.Models
             }
         }
 
-        public string DeleteEmail(string key)
+        public string DeleteEmail()
         {
-            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create($"{link}clear&key={key}");
+            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create($"{link}clear&key={Key}");
             HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
 
             using (StreamReader stream = new StreamReader(
@@ -93,9 +95,9 @@ namespace EmailApp.Models
             }
         }
 
-        public string ClearEmail(string key)
+        public string ClearEmail()
         {
-            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create($"{link}clear&key={key}");
+            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create($"{link}clear&key={Key}");
             HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
 
             using (StreamReader stream = new StreamReader(
